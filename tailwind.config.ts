@@ -71,6 +71,9 @@ export default {
 					white: '#FFFFFF'
 				}
 			},
+			fontFamily: {
+				'inter': ['Inter', 'sans-serif']
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
