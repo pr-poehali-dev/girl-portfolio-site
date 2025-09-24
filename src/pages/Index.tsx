@@ -5,9 +5,11 @@ import Icon from '@/components/ui/icon';
 
 export default function Index() {
   const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
+    setMobileMenuOpen(false); // Закрываем мобильное меню после клика
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -21,6 +23,8 @@ export default function Index() {
             <div className="text-2xl font-bold bg-gradient-to-r from-bright-purple to-bright-pink bg-clip-text text-transparent">
               Анастасия
             </div>
+            
+            {/* Desktop Menu */}
             <div className="hidden md:flex space-x-8">
               {[
                 { id: 'home', label: 'Главная' },
@@ -36,6 +40,46 @@ export default function Index() {
                       ? 'text-bright-purple border-b-2 border-bright-purple' 
                       : 'text-bright-gray'
                   }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-bright-purple/10 transition-colors duration-300"
+            >
+              <Icon 
+                name={mobileMenuOpen ? "X" : "Menu"} 
+                size={24} 
+                className="text-bright-gray hover:text-bright-purple transition-colors duration-300"
+              />
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className={`md:hidden transition-all duration-300 ease-in-out ${
+            mobileMenuOpen 
+              ? 'max-h-64 opacity-100 mt-4' 
+              : 'max-h-0 opacity-0 overflow-hidden'
+          }`}>
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-bright-gray/20">
+              {[
+                { id: 'home', label: 'Главная' },
+                { id: 'about', label: 'Обо мне' },
+                { id: 'services', label: 'Услуги' },
+                { id: 'reviews', label: 'Отзывы' }
+              ].map((item, index) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`w-full text-left py-3 px-4 rounded-lg transition-all duration-300 font-medium ${
+                    activeSection === item.id 
+                      ? 'bg-gradient-to-r from-bright-purple to-bright-pink text-white' 
+                      : 'text-bright-gray hover:bg-bright-purple/10 hover:text-bright-purple'
+                  } ${index !== 0 ? 'mt-2' : ''}`}
                 >
                   {item.label}
                 </button>
